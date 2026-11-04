@@ -688,7 +688,6 @@ overlay.addEventListener('click', (e)=>{
 });
 
 /* ---------------- SEND MESSAGE ---------------- */
-const _t = ['darkkwolf.business','gmail.com'].join('@');
 const form = document.getElementById('msgForm');
 const statusEl = document.getElementById('status');
 const sendBtn = document.getElementById('sendBtn');
@@ -702,18 +701,18 @@ form.addEventListener('submit', async (e)=>{
   statusEl.className = 'status';
   statusEl.textContent = 'sending…';
   try{
-    const res = await fetch('https://formsubmit.co/ajax/' + _t, {
+    const res = await fetch('https://api.web3forms.com/submit', {
       method:'POST',
       headers:{'Content-Type':'application/json','Accept':'application/json'},
       body: JSON.stringify({
-        _subject: 'Message from Angeela',
-        _template: 'box',
-        _captcha: 'false',
+        access_key: 'b179ca32-0a74-4956-842c-a9c6a2fcf2a1',
+        subject: 'Message from Angeela',
+        from_name: 'Angeela',
         message: 'Message from Angeela\n' + text
       })
     });
-    const data = await res.json().catch(()=>({}));
-    if(res.ok && (data.success === true || data.success === 'true')){
+    const data = await res.json();
+    if(data.success){
       statusEl.textContent = 'Sent! Thank you ✦';
       form.reset();
     }else{
